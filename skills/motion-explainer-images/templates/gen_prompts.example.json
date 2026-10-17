@@ -1,0 +1,5 @@
+{
+  "_comment": "One prompt per generated image (codex_images.py adds the no-logo/no-text guard rails and the theme colours). Example from the Tesla Roadster explainer.",
+  "hook-loop": "Cinematic wide 16:9 photo-illustration. A sleek low two-seat electric hypercar driving UPSIDE DOWN along the inside ceiling of a giant curved concrete loop track at night. Faint white air streaks pulled from under the car. Keep the right third of the frame mostly empty dark space for text overlay.",
+  "hover-jets": "Cinematic wide 16:9 photo-illustration. A sleek electric hypercar hovering about one metre above a dark wet runway at night, short bright white jets of compressed air blasting down from four nozzles under the body and kicking up mist. Keep the top half of the frame mostly empty dark sky for text overlay."
+}

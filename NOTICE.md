@@ -1,0 +1,32 @@
+# Third-party notices
+
+## Adapted work (included)
+
+- `skills/motion-design/` and `skills/review-loop/` are adapted from the `motion-design` and
+  `review-loop` skills in [whaleyxbt/claude-motion](https://github.com/whaleyxbt/claude-motion)
+  (MIT License, Copyright (c) 2026 whaleyxbt). The original license is kept in each folder's
+  `LICENSE`. Changes: rewritten for HyperFrames instead of Remotion, Traditional Chinese
+  typography, the three-color theme rule, and a new `sheet.py`; sections added in this version are
+  marked 「本版新增」.
+
+## Dependencies (not included — installed by the user)
+
+- [HyperFrames](https://github.com/heygen-com/hyperframes) and its official skills — Apache-2.0, by HeyGen.
+- [GSAP](https://gsap.com) — loaded from a CDN by each composition; see GSAP's license.
+- Fonts, fetched by `scripts/fetch_fonts.sh`: [GenSeki Gothic / 源石黑體](https://github.com/ButTaiwan/genseki-font) (ButTaiwan, the default face) from its GitHub release, and from the [@fontsource](https://fontsource.org) npm
+  packages or the system: Newsreader, DM Mono, Hanken Grotesk, Noto Sans TC, Noto Serif TC — all
+  SIL Open Font License 1.1.
+- [edge-tts](https://github.com/rany2/edge-tts) — GPL-3.0 Python package that calls Microsoft's
+  online text-to-speech service; check the service's terms before commercial use.
+- [Breeze TTS 2](https://github.com/breezeblue-ai/breeze-tts) — inference code Apache-2.0; model
+  weights and generated audio under the BreezeBlue Research and Non-Commercial License.
+
+- [Codex CLI](https://github.com/openai/codex) and its built-in imagegen skill — used, not included,
+  to generate illustrations; follow OpenAI's usage policies for generated images.
+- Photos fetched by `find_images.py` come from [Wikimedia Commons](https://commons.wikimedia.org)
+  and keep their own licences (only public domain, CC0, CC BY, CC BY-SA are accepted). Each fetch
+  records author, licence and source in the project's `assets/images/web/CREDITS.md`; a film must
+  show that credit next to the image. Edited versions of CC BY-SA photos remain CC BY-SA.
+
+No product logos, photos or trademarks are included in this repository; the templates only
+reference the example film's image choices (file names, licences and credits) as text.
