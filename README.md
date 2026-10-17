@@ -26,7 +26,9 @@
 | [`motion-design`](skills/motion-design/SKILL.md) | 品味規則：緩動、節奏、閱讀停留、繁體中文排版、三色配色 |
 | [`review-loop`](skills/review-loop/SKILL.md) | 自我審查：在每個旁白子句截一格拼成 contact sheet，逐張檢查 |
 
-圖片層的完整規則（授權、擺放、踩過的坑）見 [`references/images.md`](skills/motion-explainer-images/references/images.md)；製作動畫本身的 23 個坑見 [`lessons.md`](skills/motion-explainer-images/references/lessons.md)。
+圖片層的完整規則（授權、擺放、踩過的坑）見 [`references/images.md`](skills/motion-explainer-images/references/images.md)；製作動畫本身的 26 個坑見 [`lessons.md`](skills/motion-explainer-images/references/lessons.md)。
+
+唸錯字也有工具：整支片做完才發現某個字唸錯（例如英文品牌名、破音字），用 `fix_voice.py` 產生試聽檔，讓你用耳朵從幾個候選裡挑一個，再把那一句**整句等比伸縮回原本的長度**換進去。每一格的長度都不變，動畫不用重做。
 
 ## 需要的環境
 
