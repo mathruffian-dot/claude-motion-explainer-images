@@ -17,6 +17,7 @@ import sys
 import urllib.parse
 import urllib.request
 from pathlib import Path
+sys.stdout.reconfigure(errors="replace")  # never crash printing Chinese or accented names on a non-UTF-8 console
 
 API = "https://commons.wikimedia.org/w/api.php"
 UA = "motion-explainer-images/1.0 (https://github.com/mathruffian-dot/claude-motion-explainer-images)"
@@ -38,6 +39,7 @@ def info(page):
         "title": page["title"],
         "width": ii.get("width"), "height": ii.get("height"),
         "license": strip(m.get("LicenseShortName", {}).get("value")),
+        "license_url": strip(m.get("LicenseUrl", {}).get("value")),
         "artist": strip(m.get("Artist", {}).get("value"))[:80],
         "page": ii.get("descriptionurl"),
         "thumb": ii.get("thumburl"),
@@ -58,8 +60,11 @@ def search(q, limit):
 
 def get(title, name, project, width):
     d = api({"action": "query", "titles": title, "prop": "imageinfo", "iiprop": "url|size|extmetadata",
-             "iiextmetadatafilter": "LicenseShortName|Artist", "iiurlwidth": width})
-    r = info(list(d["query"]["pages"].values())[0])
+             "iiextmetadatafilter": "LicenseShortName|LicenseUrl|Artist", "iiurlwidth": width})
+    page = list(d["query"]["pages"].values())[0]
+    if "imageinfo" not in page:
+        sys.exit(f'no such file on Wikimedia Commons: {title} (copy the exact "File:..." title from search)')
+    r = info(page)
     if not OK.match(r["license"] or ""):
         sys.exit(f'refusing {title}: licence "{r["license"]}" is not PD / CC0 / CC BY / CC BY-SA')
     ext = Path(urllib.parse.urlparse(r["thumb"]).path).suffix.lower() or ".jpg"
@@ -70,11 +75,12 @@ def get(title, name, project, width):
     with urllib.request.urlopen(req, timeout=60) as resp:
         dest.write_bytes(resp.read())
     credits = dest_dir / "CREDITS.md"
-    line = f'- {dest.name} — "{r["title"][5:]}" by {r["artist"] or "unknown"}, {r["license"]}, via Wikimedia Commons: {r["page"]}\n'
-    if not credits.exists():
-        credits.write_text("# Image credits (web)\n\n", encoding="utf-8")
-    with open(credits, "a", encoding="utf-8") as f:
-        f.write(line)
+    lic = f'{r["license"]} ({r["license_url"]})' if r.get("license_url") else r["license"]
+    line = (f'- {dest.name} — "{r["title"][5:]}" by {r["artist"] or "unknown"}, {lic}, via Wikimedia Commons: '
+            f'{r["page"]} — modified for the film (cropped and resized; colour treatment as listed in media.json)\n')
+    old = credits.read_text(encoding="utf-8") if credits.exists() else "# Image credits (web)\n\n"
+    old = "".join(l for l in old.splitlines(keepends=True) if not l.startswith(f"- {dest.name} — "))  # re-fetch replaces
+    credits.write_text(old + line, encoding="utf-8")
     print(f"saved {dest}")
     print(f'on-screen credit: Photo: {r["artist"] or "unknown"} · {r["license"]} · Wikimedia Commons')
     if "SA" in r["license"].upper():

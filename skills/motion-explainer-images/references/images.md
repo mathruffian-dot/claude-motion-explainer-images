@@ -40,14 +40,14 @@
 ## 執行順序
 
 ```bash
-python scripts/find_images.py search "<關鍵字>"
-python scripts/find_images.py get "File:<檔名>" --name <短名> --project .
-python scripts/codex_images.py --project .            # 讀 gen_prompts.json
-python scripts/treat_images.py --project .            # 讀 images.json：裁切、套色 -> assets/images/treated/
-python scripts/theme.py --project .                   # 三色＋字型（會從配色前的原始檔重做，所以圖片要在它之後放）
-python scripts/place_images.py --project .            # 放進每一格，可重複執行
+python <me>/scripts/find_images.py search "<關鍵字>"
+python <me>/scripts/find_images.py get "File:<檔名>" --name <短名> --project .
+python <me>/scripts/codex_images.py --project .            # 讀 gen_prompts.json
+python <me>/scripts/treat_images.py --project .            # 讀 images.json：裁切、套色 -> assets/images/treated/
+python <me>/scripts/theme.py --project .                   # 三色＋字型（會從配色前的原始檔重做，所以圖片要在它之後放）
+python <me>/scripts/place_images.py --project .            # 放進每一格，可重複執行
 hyperframes check                                     # 照片上的文字對比度、重疊
-python scripts/subset_fonts.py --project .            # 最後：圖說和來源也有字，瘦身要放在它們之後
+python <me>/scripts/subset_fonts.py --project .            # 最後：圖說和來源也有字，瘦身要放在它們之後
 ```
 
 ## 實戰（Tesla Roadster 範例片）

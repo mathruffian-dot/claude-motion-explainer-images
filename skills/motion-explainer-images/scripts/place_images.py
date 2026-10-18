@@ -18,10 +18,12 @@ images.json "placements": [
 box = [x, y, w, h] of the image in canvas px (the card's label sits under it).
   python place_images.py --project <dir>
 """
+import sys
 import argparse
 import json
 import re
 from pathlib import Path
+sys.stdout.reconfigure(errors="replace")  # never crash printing Chinese or accented names on a non-UTF-8 console
 
 START, END = "<!-- PLACE:start -->", "<!-- PLACE:end -->"
 JS_START, JS_END = "<!-- PLACE-JS:start -->", "<!-- PLACE-JS:end -->"
@@ -36,12 +38,15 @@ def element(p, k, theme):
     pid = f"{p['frame']}-place-{k}"
     src = f"assets/images/treated/{p['image']}.jpg"
     fg, bg = theme["fg"], theme["bg"]
+    fam = (theme.get("font") or {}).get("family")  # theme.json "font" wins, like all other text
+    LABEL = (f"\'{fam}\'," if fam else "") + "\'Hanken Grotesk\',\'NotoSansTC\',sans-serif"
+    MONO = (f"\'{fam}\'," if fam else "") + "\'DM Mono\',\'NotoSansTC\',monospace"
     if p["mode"] == "background":
         style = (f"position:absolute;inset:0;z-index:0;opacity:0;"
                  f"background:url('{src}') center/cover no-repeat;")
         credit = ""
         if p.get("credit"):
-            credit = (f'<div style="position:absolute;right:80px;top:72px;font:500 15px \'DM Mono\',\'NotoSansTC\',monospace;'
+            credit = (f'<div style="position:absolute;right:80px;top:72px;font:500 15px {MONO};'
                       f'letter-spacing:0.06em;color:{fg};opacity:0.7;">{p["credit"]}</div>')
         return pid, f'<div id="{pid}" style="{style}">{credit}</div>'
     x, y, w, h = p["box"]
@@ -53,14 +58,14 @@ def element(p, k, theme):
             f'<div id="{pid}" style="position:absolute;left:{x}px;top:{y}px;display:flex;gap:22px;align-items:flex-end;z-index:40;opacity:0;">'
             f'<div style="flex:none;width:{w}px;height:{h}px;border:2px solid {fg};background:{bg} url(\'{src}\') center/cover no-repeat;"></div>'
             f'<div style="width:{tw}px;padding-bottom:4px;">'
-            f'<div style="font:600 22px \'Hanken Grotesk\',\'NotoSansTC\',sans-serif;color:{fg};line-height:1.35;">{label}</div>'
-            f'<div style="margin-top:8px;font:400 14px \'DM Mono\',\'NotoSansTC\',monospace;letter-spacing:0.04em;color:{fg};opacity:0.72;line-height:1.4;">{credit}</div>'
+            f'<div style="font:600 22px {LABEL};color:{fg};line-height:1.35;">{label}</div>'
+            f'<div style="margin-top:8px;font:400 14px {MONO};letter-spacing:0.04em;color:{fg};opacity:0.72;line-height:1.4;">{credit}</div>'
             f"</div></div>")
     html = (
         f'<div id="{pid}" style="position:absolute;left:{x}px;top:{y}px;width:{w}px;z-index:40;opacity:0;">'
         f'<div style="width:{w}px;height:{h}px;border:2px solid {fg};background:{bg} url(\'{src}\') center/cover no-repeat;"></div>'
-        f'<div style="margin-top:10px;font:600 21px \'Hanken Grotesk\',\'NotoSansTC\',sans-serif;color:{fg};line-height:1.3;">{label}</div>'
-        f'<div style="margin-top:4px;font:400 14px \'DM Mono\',\'NotoSansTC\',monospace;letter-spacing:0.04em;color:{fg};opacity:0.72;">{credit}</div>'
+        f'<div style="margin-top:10px;font:600 21px {LABEL};color:{fg};line-height:1.3;">{label}</div>'
+        f'<div style="margin-top:4px;font:400 14px {MONO};letter-spacing:0.04em;color:{fg};opacity:0.72;">{credit}</div>'
         f"</div>"
     )
     return pid, html

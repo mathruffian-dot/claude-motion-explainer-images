@@ -12,7 +12,8 @@ background and accent colours from theme.json, and room for text overlay. Images
   python codex_images.py --project <dir> [--only hook-loop] [--dry-run]
 
 Requires the Codex CLI (`codex`) signed in; the built-in image_gen tool needs no OPENAI_API_KEY.
-Runs `codex exec` with stdin closed (otherwise it waits forever for "additional input").
+Runs `codex exec -` with the task on stdin (an open, empty stdin would make it wait forever; a long
+argument is mangled by codex.cmd on Windows).
 """
 import argparse
 import json
@@ -20,6 +21,7 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
+sys.stdout.reconfigure(errors="replace")  # never crash printing Chinese or accented names on a non-UTF-8 console
 
 GUARD = ("Completely unbranded: no logos, no badges, no emblems, no text or lettering anywhere, "
          "not any real brand's design. Photoreal, high contrast, sharp.")
@@ -54,12 +56,15 @@ def main():
     if a.dry_run:
         print(task)
         return
-    if not shutil.which("codex"):
+    codex = shutil.which("codex")  # on Windows this resolves codex.cmd, which a bare "codex" would not
+    if not codex:
         sys.exit("codex CLI not found — install it, or generate the images another way into assets/images/gen/")
     with open(out_dir / "codex_run.log", "w", encoding="utf-8") as log:
-        subprocess.run(["codex", "exec", "--skip-git-repo-check", "-s", "workspace-write",
-                        "-c", f"model_reasoning_effort={a.effort}", task],
-                       cwd=out_dir, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
+        # the task goes in on stdin ("-"): a multi-line argument is mangled by codex.cmd on Windows,
+        # and an open stdin with no input would make codex wait forever
+        subprocess.run([codex, "exec", "--skip-git-repo-check", "-s", "workspace-write",
+                        "-c", f"model_reasoning_effort={a.effort}", "-"],
+                       cwd=out_dir, input=task.encode("utf-8"), stdout=log, stderr=subprocess.STDOUT)
     missing = [k for k in todo if not (out_dir / f"{k}.png").exists()]
     for k in todo:
         print(("missing " if k in missing else "saved   ") + str(out_dir / f"{k}.png"))

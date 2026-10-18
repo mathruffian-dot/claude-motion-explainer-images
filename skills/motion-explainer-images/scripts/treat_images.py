@@ -12,11 +12,13 @@ modes:
   keep    — keep the colors (images generated on-theme), optional darken factor
 Writes assets/images/treated/<name>.jpg.   python treat_images.py --project <dir>
 """
+import sys
 import argparse
 import json
 from pathlib import Path
 
 from PIL import Image, ImageEnhance, ImageOps
+sys.stdout.reconfigure(errors="replace")  # never crash printing Chinese or accented names on a non-UTF-8 console
 
 
 def hex_rgb(h):

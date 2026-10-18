@@ -34,7 +34,7 @@
 
 - Node.js 22+、ffmpeg、Python 3 + Pillow + fonttools（`pip install pillow fonttools`）
 - HyperFrames：`npm install -g hyperframes`，再跑 `hyperframes skills update` 和 `hyperframes skills update faceless-explainer`
-- **生成圖（選用）**：已登入的 [Codex CLI](https://github.com/openai/codex)。沒有的話，可以用任何生圖工具把 PNG 放進 `assets/images/gen/`。
+- **生成圖（選用）**：[Codex CLI](https://github.com/openai/codex)（測試版本 0.162.1），先用 `codex login` 登入，使用它內建的 image_gen，不需要另外的 API key。如果你用的 agent 本身就是 Codex，可以直接在對話裡用 image_gen 產圖，存進 `assets/images/gen/`。沒有 Codex 的話，可以用任何生圖工具把 PNG 放進 `assets/images/gen/`。
 - 旁白（擇一，詳見 [`tts-setup.md`](skills/motion-explainer-images/references/tts-setup.md)）：**edge-tts**（預設，`pip install edge-tts`，不需要 GPU）或 **Breeze TTS 2**（本機 NVIDIA GPU，僅限非商業用途）。
 - 先跑 `python skills/motion-explainer-images/scripts/hw_check.py`，它會依你的硬體給建議（[`hardware.md`](skills/motion-explainer-images/references/hardware.md)）。
 
@@ -45,6 +45,10 @@ git clone https://github.com/mathruffian-dot/claude-motion-explainer-images.git
 cp -r claude-motion-explainer-images/skills/* ~/.claude/skills/        # Claude Code
 # Codex / 其他 agent：複製到 ~/.agents/skills/
 ```
+
+**給其他 agent（Codex、Gemini CLI 等）**：這些 skill 只用到終端機指令和一般的讀寫檔案，沒有 Claude 專屬的工具。兩個要注意的地方，`SKILL.md` 開頭都有寫：
+- 工具和 HyperFrames 官方 skill 的位置用代號 `<me>`、`<fe>` 表示，開工前先用一行指令找出實際路徑。
+- 「每格派一個 sub-agent 平行做」在沒有 sub-agent 的 agent 上改成一格一格依序做，結果一樣，只是比較慢。
 
 可以和基本版 `motion-explainer` 一起安裝。兩者共用的 `motion-design`、`review-loop` 內容完全一樣。
 
