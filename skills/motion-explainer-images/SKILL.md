@@ -128,7 +128,7 @@ hyperframes lint && hyperframes check
 
 1. **規劃**：每支片 3–5 張。真實照片當**證據卡**（「真的有人做過」），Codex 生成圖當開場、收尾的**氣氛背景**。動畫是主體，圖片不能搶走線稿講的原理。
 2. **找照片**：`python <me>/scripts/find_images.py search "<關鍵字>"` → `get "File:…" --name <短名> --project .`。只接受公有領域、CC0、CC BY、CC BY-SA，來源會自動寫進 `assets/images/web/CREDITS.md`。下載後要親眼看一次，路人、其他品牌的 logo、浮水印要裁掉。
-3. **生成示意圖**：把 prompt 寫進 `gen_prompts.json`（見 `<me>/templates/gen_prompts.example.json`），跑 `python <me>/scripts/codex_images.py --project .`。需要本機已登入的 Codex CLI，使用內建的 image_gen，不需要 API key。生成後要親眼檢查有沒有冒出文字或 logo。沒有 Codex 的話，告訴使用者可以改用其他生圖工具，把 PNG 放進 `assets/images/gen/`。
+3. **生成示意圖**：把 prompt 寫進 `gen_prompts.json`（見 `<me>/templates/gen_prompts.example.json`），跑 `python <me>/scripts/codex_images.py --project .`。畫風用 `"_style"` 設定（沒寫＝寫實照片）；同一個人物要前後一致，先做一張定裝圖，其他圖用 `"refs"` 附上它（寫法見 `references/images.md`）。需要本機已登入的 Codex CLI，使用內建的 image_gen，不需要 API key。生成後要親眼檢查有沒有冒出文字或 logo。沒有 Codex 的話，告訴使用者可以改用其他生圖工具，把 PNG 放進 `assets/images/gen/`。
 4. **套色**：在 `images.json` 寫好每張圖的裁切、尺寸和模式（照片用 `duotone`，生成圖用 `keep`），跑 `python <me>/scripts/treat_images.py --project .`。
 5. **擺放**：先看每一格落定後的 contact sheet，找真的空著的區域，在 `images.json` 的 `placements` 寫好 `frame`、`mode`（`card`／`background`）、`box`、`at`、`label`、`credit`。要把原本的線稿換成照片，就用 `hide`。然後在 **`theme.py` 之後**跑 `python <me>/scripts/place_images.py --project .`。
 6. 畫面標示：照片寫「Photo: 作者 · 授權 · 來源」，生成圖寫「AI 生成示意圖」。

@@ -1,5 +1,17 @@
 {
-  "_comment": "One prompt per generated image (codex_images.py adds the no-logo/no-text guard rails and the theme colours). Example from the Tesla Roadster explainer.",
+  "_comment": "One prompt per generated image (codex_images.py adds the no-logo/no-text guard rails and the theme colours). A value is a prompt string, or {\"prompt\", \"refs\": [paths], \"style\"}. \"_style\" sets the look for every image; without it the default is photoreal. The first two are from the Tesla Roadster explainer; the last two show a drawn style with a costume sheet as reference.",
+  "_style": "Cinematic photo-illustration, photoreal, high contrast, sharp.",
   "hook-loop": "Cinematic wide 16:9 photo-illustration. A sleek low two-seat electric hypercar driving UPSIDE DOWN along the inside ceiling of a giant curved concrete loop track at night. Faint white air streaks pulled from under the car. Keep the right third of the frame mostly empty dark space for text overlay.",
-  "hover-jets": "Cinematic wide 16:9 photo-illustration. A sleek electric hypercar hovering about one metre above a dark wet runway at night, short bright white jets of compressed air blasting down from four nozzles under the body and kicking up mist. Keep the top half of the frame mostly empty dark sky for text overlay."
+  "hover-jets": "Cinematic wide 16:9 photo-illustration. A sleek electric hypercar hovering about one metre above a dark wet runway at night, short bright white jets of compressed air blasting down from four nozzles under the body and kicking up mist. Keep the top half of the frame mostly empty dark sky for text overlay.",
+  "scholar-sheet": {
+    "prompt": "Full-body costume sheet of one tall thin elderly scholar in a long patched grey robe, messy grey beard: front, side and back views on a plain background. Square 1:1.",
+    "style": "Woodcut print illustration, warm brown ink on aged cream paper, bold carved lines."
+  },
+  "scholar-counter": {
+    "prompt": "The same scholar leaning on a wooden tavern counter, laying out copper coins one by one. Wide 16:9, keep the left third empty for text.",
+    "style": "Woodcut print illustration, warm brown ink on aged cream paper, bold carved lines.",
+    "refs": [
+      "assets/images/gen/scholar-sheet.png"
+    ]
+  }
 }
