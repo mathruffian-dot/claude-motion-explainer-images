@@ -30,6 +30,8 @@
 
 唸錯字也有工具：整支片做完才發現某個字唸錯（例如英文品牌名、破音字），用 `fix_voice.py` 產生試聽檔，讓你用耳朵從幾個候選裡挑一個，再把那一句**整句等比伸縮回原本的長度**換進去。每一格的長度都不變，動畫不用重做。
 
+**需要 3D 的內容會自動用 three.js**（2026-11-16 起）：立體地形與等高線、分子、天體運行、立體圖形的展開與截面，做成嵌在 HyperFrames 裡的 three.js 格，一樣一格一格精準輸出、跟旁白對齊。照 [`references/threejs.md`](skills/motion-explainer-images/references/threejs.md)，從範本 [`templates/three_scene.example.html`](skills/motion-explainer-images/templates/three_scene.example.html) 改起。沒有獨立顯示卡也輸得出來：瀏覽器會改用軟體算 3D；一支 55 秒的 3D 片，桌機實測 2 分 43 秒，用 GPU 是 2 分 25 秒。
+
 ## 需要的環境
 
 - Node.js 22+、ffmpeg、Python 3 + Pillow + fonttools（`pip install pillow fonttools`）
@@ -74,7 +76,7 @@ Agent 會先問你播放平台、長度、旁白聲音、三個顏色和字型�
 
 ## English
 
-The image-enhanced edition of [claude-motion-explainer](https://github.com/mathruffian-dot/claude-motion-explainer): agent skills that turn one sentence into a narrated, captioned explainer animation on HyperFrames, plus an image layer — freely licensed photos from Wikimedia Commons (PD / CC0 / CC BY / CC BY-SA only, credits recorded and shown on screen) as evidence cards, and unbranded illustrations generated through the local Codex CLI's imagegen skill as atmosphere backgrounds. Photos are duotoned into the film's three-color theme; one font (GenSeki Gothic Bold by default) for all text. See `skills/motion-explainer-images/SKILL.md`.
+The image-enhanced edition of [claude-motion-explainer](https://github.com/mathruffian-dot/claude-motion-explainer): agent skills that turn one sentence into a narrated, captioned explainer animation on HyperFrames, plus an image layer — freely licensed photos from Wikimedia Commons (PD / CC0 / CC BY / CC BY-SA only, credits recorded and shown on screen) as evidence cards, and unbranded illustrations generated through the local Codex CLI's imagegen skill as atmosphere backgrounds. Photos are duotoned into the film's three-color theme; one font (GenSeki Gothic Bold by default) for all text. Content that needs 3D (terrain and contour lines, molecules, orbits, solids) is built automatically as seek-driven three.js frames inside HyperFrames (`skills/motion-explainer-images/references/threejs.md`). See `skills/motion-explainer-images/SKILL.md`.
 
 ## 授權
 
